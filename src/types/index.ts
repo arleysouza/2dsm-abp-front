@@ -52,6 +52,7 @@ export interface UserContextProps {
   error: ErrorProps | null;
   setError: (error: ErrorProps | null) => void;
   isErrorProps: (object: any) => object is ErrorProps;
+  remove: (id:number) => Promise<void>;
 }
 
 export interface ProviderProps {

@@ -54,6 +54,8 @@ export function UserProvider({ children }: ProviderProps) {
     const response = await User.create(mail, password, profile);
     if (isErrorProps(response)) {
       setError(response);
+    } else {
+      getUsers();
     }
   };
 
@@ -87,9 +89,18 @@ export function UserProvider({ children }: ProviderProps) {
     }
   };
 
+  const remove = async (id:number) => {
+    const response = await User.delete(id);
+    if (!isErrorProps(response)) {
+      getUsers();
+    } else {
+      setError(response);
+    }
+  };
+
   return (
     <UserContext.Provider
-      value={{ users, mail, profile, token, login, logout, create, getUsers, updateProfile, error, setError, isErrorProps }}
+      value={{ remove, users, mail, profile, token, login, logout, create, getUsers, updateProfile, error, setError, isErrorProps }}
     >
       {children}
     </UserContext.Provider>

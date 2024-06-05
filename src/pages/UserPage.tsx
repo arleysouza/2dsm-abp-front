@@ -7,7 +7,7 @@ export default function UserPage() {
   const [mail, setMail] = useState("a@teste.com");
   const [password, setPassword] = useState("123456");
   const [profile, setProfile] = useState("user");
-  const { create } = useUser();
+  const { create, remove } = useUser();
 
   useEffect(() => {
     setError(null);
@@ -17,17 +17,16 @@ export default function UserPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleCreate = async () => {
+  const handleCreate = () => {
     if (!mail) {
       setError({ erro: "Forneça o e-mail" });
     } else if (!password) {
       setError({ erro: "Forneça a senha" });
     } else {
-      await create(mail, password, profile);
-      getUsers();
+      create(mail, password, profile);
     }
   };
-console.log("error", error)
+
   return (
     <>
       {error ? <ErrorBar>{error.erro}</ErrorBar> : <></>}
@@ -38,6 +37,7 @@ console.log("error", error)
             {users.map((user) => (
               <li key={user.id}>
                 {user.mail} {user.profile}
+                <button onClick={()=>remove(user.id)}>Excluir</button>
               </li>
             ))}
           </ol>
